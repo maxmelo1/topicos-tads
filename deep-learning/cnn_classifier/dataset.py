@@ -1,5 +1,3 @@
-from cProfile import label
-
 import torch
 
 from torch.utils.data import Dataset
@@ -10,26 +8,21 @@ from PIL import Image
 
 
 class CustomDataset(Dataset):
-    def __init__(self, root, split='train', transform=None):
+    def __init__(self, root, flist, transform=None):
         self.root = root
         self.transform = transform
-        self.split = split
+        self.flist = flist
 
-        self.data = []
-        self.labels = []
-
-        for file in os.listdir(os.path.join(root, split)):
-            file_path = os.path.join(root, split, file)
-            self.data.append(file_path)
-            self.labels.append(0 if file.split('.')[0]=='cat' else 1)  # Assuming label is the prefix of the filename   
 
 
     def __len__(self):
-        return len(self.data)
+        return len(self.flist)
 
     def __getitem__(self, idx):
-        file_path = self.data[idx]
-        label = self.labels[idx]
+        file_path = os.path.join(self.root, self.flist[idx])
+        label = 0 if self.flist[idx].split('.')[0]  == 'cat' else 1
+
+        # print(file_path, label)
 
         # Load the data from the file
         img = np.array(Image.open(file_path))
