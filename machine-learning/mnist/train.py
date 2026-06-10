@@ -11,6 +11,10 @@ from sklearn.model_selection import train_test_split
 from joblib import dump
 
 
+# from sklearn.datasets import fetch_openml
+# mnist = fetch_openml('mnist_784', version=1)
+
+
 
 digits = datasets.load_digits()
 
